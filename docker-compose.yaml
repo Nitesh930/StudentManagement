@@ -1,23 +1,14 @@
-version: "3.9"
-
+version: '3'
 services:
   web:
     build: .
-    container_name: fastapi-app
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Match this port with what your app uses
     environment:
-      - MONGO_URI=${MONGO_URI}  # You can load MongoDB URI from the .env file
-    depends_on:
-      - db
+      - MONGO_URI=${MONGO_URI}
+    networks:
+      - app-network
 
-  db:
-    image: mongo:latest
-    container_name: mongo-db
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-
-volumes:
-  mongodb_data:
+networks:
+  app-network:
+    driver: bridge
