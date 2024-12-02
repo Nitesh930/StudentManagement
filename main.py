@@ -12,11 +12,15 @@ if not MONGO_URI:
     raise ValueError("MONGO_URI is not set in the environment variables.")
 
 # Initialize FastAPI app
+PORT = int(os.getenv("PORT", 10000))
 app = FastAPI(title="Student Management System")
-
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to the FastAPI app!"}
 
 # Include student-related routes
 app.include_router(student_router, prefix="/api/v1/students")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
