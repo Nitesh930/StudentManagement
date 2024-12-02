@@ -5,7 +5,8 @@ services:
     ports:
       - "8080:8080"  # Match this port with what your app uses
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://singhniteshkumar1234:8h2O8PT9x3CveR8f@cluster0.irk35.mongodb.net/myDatabase?retryWrites=true&w=majority
+
     networks:
       - app-network
 
