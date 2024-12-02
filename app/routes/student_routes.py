@@ -28,12 +28,23 @@ async def get_students(country: Optional[str] = Query(None), age: Optional[int] 
 
 @router.get("/{id}", response_model=dict)
 async def get_student_by_id(id: str):
+    if not id:
+        raise HTTPException(status_code=400, detail="Student ID is required.")
+    
     if not ObjectId.is_valid(id):
         raise HTTPException(status_code=400, detail="Invalid student ID format.")
+
     student = await student_collection.find_one({"_id": ObjectId(id)})
+    
     if not student:
         raise HTTPException(status_code=404, detail="Student not found.")
-    return student
+
+    
+    return {
+        "name": student["name"],
+        "age": student["age"],
+        "address": student["address"]
+    }
 
 class StudentUpdateRequest(BaseModel):
     name: Optional[str] = None
